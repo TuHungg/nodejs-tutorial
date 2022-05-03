@@ -1,5 +1,5 @@
 const data = {
-	employess: require("../model/employees.json"),
+	employess: require('../model/employees.json'),
 	setEmployess: function (data) {
 		this.employess = data;
 	},
@@ -17,7 +17,7 @@ const createEmployees = (req, res) => {
 	};
 
 	if (!newEmployees.name || !newEmployees.age) {
-		return res.status(400).json({ message: "Name and age are required." });
+		return res.status(400).json({ message: 'Name and age are required.' });
 	}
 
 	data.setEmployess([...data.employess, newEmployees]);
@@ -25,32 +25,50 @@ const createEmployees = (req, res) => {
 };
 
 const updateEmployees = (req, res) => {
-	const employees = data.employess.find((emp) => emp.id === parseInt(req.body.id));
+	const employees = data.employess.find(
+		(emp) => emp.id === parseInt(req.body.id)
+	);
 	if (!employees) {
-		return res.status(400).json({ message: `Employee Id ${req.body.id} not found!` });
+		return res
+			.status(400)
+			.json({ message: `Employee Id ${req.body.id} not found!` });
 	}
 	if (req.body.name) employees.name = req.body.name;
 	if (req.body.age) employees.age = req.body.age;
-	const filteredArray = data.employess.filter((emp) => emp.id !== parseInt(req.body.id));
+	const filteredArray = data.employess.filter(
+		(emp) => emp.id !== parseInt(req.body.id)
+	);
 	const unsortedArray = [...filteredArray, employees];
-	data.setEmployess(unsortedArray.sort((a, b) => (a.id > b.id ? 1 : a.id < b.id ? -1 : 0)));
+	data.setEmployess(
+		unsortedArray.sort((a, b) => (a.id > b.id ? 1 : a.id < b.id ? -1 : 0))
+	);
 	res.json(data.employess);
 };
 
 const deleteEmplyees = (req, res) => {
-	const employees = data.employess.find((emp) => emp.id === parseInt(req.body.id));
+	const employees = data.employess.find(
+		(emp) => emp.id === parseInt(req.body.id)
+	);
 	if (!employees) {
-		return res.status(400).json({ message: `Employee Id ${req.body.id} not found!` });
+		return res
+			.status(400)
+			.json({ message: `Employee Id ${req.body.id} not found!` });
 	}
-	const filteredArray = data.employess.filter((emp) => emp.id !== parseInt(req.body.id));
+	const filteredArray = data.employess.filter(
+		(emp) => emp.id !== parseInt(req.body.id)
+	);
 	data.setEmployess([...filteredArray]);
 	res.json(data.employess);
 };
 
 const getEmployees = (req, res) => {
-	const employees = data.employess.find((emp) => emp.id === parseInt(req.body.id));
+	const employees = data.employess.find(
+		(emp) => emp.id === parseInt(req.body.id)
+	);
 	if (!employees) {
-		return res.status(400).json({ message: `Employee Id ${req.body.id} not found!` });
+		return res
+			.status(400)
+			.json({ message: `Employee Id ${req.body.id} not found!` });
 	}
 	res.json(employees);
 };

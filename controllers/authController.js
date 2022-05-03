@@ -15,7 +15,9 @@ const path = require('path');
 const handleLogin = async (req, res) => {
 	const { user, pwd } = req.body;
 	if (!user || !pwd)
-		return res.status(400).json({ message: 'User name and password are required.' });
+		return res
+			.status(400)
+			.json({ message: 'User name and password are required.' });
 
 	const foundUser = usersDB.users.find((person) => person.usename === user);
 	if (!foundUser) return res.sendStatus(401); // Unauthorized
@@ -34,14 +36,19 @@ const handleLogin = async (req, res) => {
 			{ expiresIn: '1d' }
 		);
 		// Saving refreshToken with current user
-		const otherUsers = usersDB.users.filter((person) => person.usename !== foundUser.usename);
+		const otherUsers = usersDB.users.filter(
+			(person) => person.usename !== foundUser.usename
+		);
 		const currentUsers = { ...foundUser, refreshToken };
 		usersDB.setUsers([...otherUsers, currentUsers]);
 		await fsPromises.writeFile(
 			path.join(__dirname, '..', 'model', 'users.json'),
 			JSON.stringify(usersDB.users)
 		);
-		res.cookie('jwt', refreshToken, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 }); // one day
+		res.cookie('jwt', refreshToken, {
+			httpOnly: true,
+			maxAge: 24 * 60 * 60 * 1000,
+		}); // one day
 		res.json({ accessToken });
 	} else {
 		res.sendStatus(401);
