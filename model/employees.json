@@ -1,13 +1,12 @@
 [
 	{
 		"id": 1,
-		"name": "Hung",
-		"age": 25
+		"firstname": "Dave",
+		"lastname": "Gray"
 	},
 	{
 		"id": 2,
-		"name": "Leo",
-		"age": 32
+		"firstname": "John",
+		"lastname": "Smith"
 	}
-
 ]

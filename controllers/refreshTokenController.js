@@ -23,10 +23,11 @@ const handleRefreshToken = async (req, res) => {
 
 	// evaluate jwt
 	jwt.verify(refreshToken, process.env.RERFESH_TOKEN_SECRET, (err, decoded) => {
-		if (err || foundUser.username !== decoded.usename)
+		if (err || foundUser.username !== decoded.username)
 			return res.sendStatus(403);
+		const roles = Object.values(foundUser.roles);
 		const accessToken = jwt.sign(
-			{ username: decoded.usename },
+			{ UserInfo: { username: decoded.username, roles: roles } },
 			process.env.ACCESS_TOKEN_SECRET,
 			{ expiresIn: '30s' } // your can set 5 minutes or 15 minutes
 		);
